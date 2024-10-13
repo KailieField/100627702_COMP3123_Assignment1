@@ -18,10 +18,14 @@ exports.getAllEmployees = async (_req, res) => {
 
 exports.createEmployee = async (req, res) => {
     const errors = validationResult(req);
+
     if(!errors.isEmpty()){
+
         return res.status(400).json({ errors: errors.array() });
     }
+
     try{
+        
         const newEmployee = new Employee(req.body);
         await newEmployee.save();
         res.status(201).json({ message: '--- EMPLOYEE ADDED TO DATABASE ', employeeId: newEmployee._id });
