@@ -25,7 +25,7 @@ exports.createEmployee = async (req, res) => {
     }
 
     try{
-        
+
         const newEmployee = new Employee(req.body);
         await newEmployee.save();
         res.status(201).json({ message: '--- EMPLOYEE ADDED TO DATABASE ', employeeId: newEmployee._id });
@@ -60,15 +60,22 @@ exports.updateEmployee = async (req, res) => {
 };
 
 exports.deleteEmployee = async (req, res) => {
-    const { eid } = req.body;
+    const employeeId = req.params.eid;
+    console.log(`--- ATTEMPTING TO DELETE: `, employeeId); // debugging
+
     try{
-        const result = await Employee.findByIdAndDelete(eid);
-        if(!result) {
+        const employee = await Employee.findByIdAndDelete(employeeId);
+        
+        if(!employee) {
+
             return res.status(404).json({ message: '--- EMPLOYEE NOT FOUND IN DATABASE.' });
         }
-        res.status(204).send(); // no content to delete
 
-    }catch (err) {
+        res.status(200).json({ message: '--- EMPLOYEE DELETED.'});
+
+    }catch (error) {
+
+        console.error('--- ERROR DELETING EMPLOYEE. ', error.message); // debugging
         res.status(500).json({ message: '--- ERROR DELETING EMPLOYEE.' });
     }
 
