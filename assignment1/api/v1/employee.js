@@ -1,7 +1,7 @@
 /* -----------------------------------------
 
     EMPLOYEE ROUTE CONFIGURATIONS
-    -- API URL: http://localhost:5000/api/v1/employee
+    -- API URL: http://localhost:3000/api/v1/employee
 
 --------------------------------------------*/
 
@@ -44,7 +44,7 @@ router.put('/:eid', employeeValidation, async (req, res) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
-        
+
         return res.status(400).json({ errors: errors.array() });
     }
 
