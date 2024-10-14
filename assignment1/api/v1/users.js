@@ -6,7 +6,6 @@
 --------------------------------------------*/
 
 const express = require('express');
-// const userRoute = require('./assignment1/api/v1/users')
 const { validationResult } = require('express-validator');
 const userController = require('../../controllers/userController');
 const userValidation = require('../../validators/userValidation');
@@ -29,7 +28,9 @@ router.post('/signup', userValidation, async (req, res) => {
 // http://localhost:3000/api/v1/users/login
 router.post('/login', userValidation, async (req, res) => {
     const errors = validationResult(req);
+
     if(!errors.isEmpty()) {
+        
         res.status(400).json({ errors: errors.array() });
     }
     await userController.login(req, res);
